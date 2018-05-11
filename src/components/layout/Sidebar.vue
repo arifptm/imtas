@@ -45,7 +45,8 @@
 
     created(){
       let event = JSON.parse(localStorage.getItem('kegiatan'))
-      this.selected = this.$moment(event.periode).format('YYYY') +  ' -- '  + event.cabang
+      if (event != null)
+      { this.selected = this.$moment(event.periode).format('YYYY') +  ' -- '  + event.cabang }
       // this.drawer = this.$store.state.drawer
     },
 

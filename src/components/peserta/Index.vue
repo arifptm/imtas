@@ -86,7 +86,7 @@
 
       getPesertas(){
         let event = JSON.parse(localStorage.getItem('kegiatan'))
-        
+        // console.log(event)
         if(event != null){
           this.axios.post('/peserta', {id: event.id})
           .then(res=>{
@@ -101,7 +101,7 @@
       importPeserta(convertedData){    
         let data = (convertedData.body)     
         this.$refs.preview.pesertas = data
-        console.log(data)
+        // console.log(data)
         // this.axios.post('/peserta/import', {'data': data, 'kegiatan': this.kegiatan})
         // .then(response=>{
         //   console.log(response.data)
@@ -121,9 +121,9 @@
         .then(func=>{
           if(func.value){
             let event = JSON.parse(localStorage.getItem('kegiatan'))
-            this.axios.post('peserta/deleteall', {'kegiatan': event.id})
+            this.axios.post('peserta/deleteall', {'id': event.id})
             .then(res=>{
-              this.getItems()
+              this.getPesertas()
               this.$swal({title:'Sukses', text:'Data berhasil dihapus', type:'success',timer:1800});
             })         
           }

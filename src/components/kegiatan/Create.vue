@@ -18,10 +18,9 @@
                   <v-text-field readonly slot="activator"
                     v-model="tanggalImtasFormat" label="Tanggal mulai Imtas"                
                   ></v-text-field>
-                  <v-date-picker v-model="kegiatan.tanggal_imtas" no-title @input="menu1 = false" locale="id"></v-date-picker>
+                  <v-date-picker v-model="kegiatan.tanggal_imtas" no-title @input="menu1 = false" locale="id" :min="$moment().format('YYYY-MM-DD')"></v-date-picker>
                 </v-menu>  
               </v-flex>
-
               <v-flex sm6>
                 <v-menu :close-on-content-click="false" v-model="menu2"
                   :nudge-right="40" lazy transition="scale-transition" offset-y full-width max-width="290px" min-width="290px"
@@ -29,7 +28,7 @@
                   <v-text-field readonly slot="activator"
                     v-model="tanggalSelesaiImtasFormat" label="Tanggal selesai Imtas"                
                   ></v-text-field>
-                  <v-date-picker v-model="kegiatan.tanggal_selesai_imtas" no-title @input="menu2 = false" locale="id"></v-date-picker>
+                  <v-date-picker v-model="kegiatan.tanggal_selesai_imtas" no-title @input="menu2 = false" locale="id" :min="$moment().format('YYYY-MM-DD')"></v-date-picker>
                 </v-menu>  
               </v-flex>
               
@@ -101,9 +100,11 @@
         if(this.editedIndex == -1){ 
           this.axios.post('/kegiatan', this.kegiatan)
           .then(res=>{
+            localStorage.setItem('kegiatan', JSON.stringify(res.data)) 
             // console.log(res.data)
-            this.$emit('reload')
-            this.dialog= false
+            // this.$emit('reload')
+            this.$router.push('/kegiatan/'+ res.data.id)
+            // this.dialog= false
             this.$swal({title:'Sukses', text:'Kegiatan baru berhasil dibuat.', type:'success',timer:1800});
           })
         } else {

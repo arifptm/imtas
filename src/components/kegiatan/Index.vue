@@ -111,6 +111,7 @@
             this.axios.delete('/kegiatan/'+item.id)
             .then(res=>{
               this.getItems()
+              localStorage.removeItem('kegiatan')
               this.$swal({title:'Sukses', text:'Data berhasil dihapus', type:'success',timer:1800});
             })         
         })

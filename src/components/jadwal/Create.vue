@@ -1,6 +1,6 @@
 <template>
   <v-dialog v-model="dialog" max-width="560px" scrollable>
-    <v-card v-if="tpqImtases.map(item => item.pesertas.length).reduce((a, b) => a + b) > 0">
+    <v-card v-if=" yetScheduled > 0">
       <v-card-title>
         <h3 class="headline mb-0">Santri belum terjadwal</h3>
       </v-card-title>
@@ -68,6 +68,18 @@
       this.getTpqImtases()
     },
 
+    computed:{
+      yetScheduled(){
+        if(tpqImtases.length > 0) { 
+          let yet = tpqImtases.map(item => item.pesertas.length).reduce((a, b) => a + b)
+
+        } else {
+          return false 
+        }
+
+      }
+    },
+
     methods:{
 
       reloadData(){
@@ -83,10 +95,12 @@
 
       getTpqImtases(){
         let kegiatan = JSON.parse(localStorage.getItem('kegiatan'))
-        this.axios.post('/tpqimtas', {'kegiatan_id': kegiatan.id})
-        .then(response=>{
-          this.tpqImtases = response.data
-        })
+        if (kegiatan != null){
+          this.axios.post('/tpqimtas', {'kegiatan_id': kegiatan.id})
+          .then(response=>{
+            this.tpqImtases = response.data
+          })
+        }
       },
 
       openScheduleDialog(item){
