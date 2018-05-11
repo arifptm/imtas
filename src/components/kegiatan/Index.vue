@@ -98,8 +98,8 @@
 
       deleteKegiatan(item){
         this.$swal({
-            title: "Are you sure?",
-            text: "You won't be able to revert this!",
+            title: "Yakin?",
+            text: "Data tidak bisa dikembalikan lagi!",
             type: "warning",
             showCancelButton: true,
             confirmButtonColor: "#85be39",

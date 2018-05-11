@@ -26,23 +26,27 @@
                     <v-icon color="grey lighten-1">add</v-icon>
                   </v-btn>
                 </v-list-tile-action>
+
+                <v-list-tile-action>
+                  <v-btn icon ripple @click="removeJadwal(shift.id)">
+                    <v-icon color="grey lighten-1">remove</v-icon>
+                  </v-btn>
+                </v-list-tile-action>                
+
               </v-list-tile>
             </v-list>
           </div>
         </v-flex>
 
         <v-flex xs8>
-        <!-- <v-flex xs8 v-if="imtases.length == 0">>
-          <h1 class="headline primary--text"><p></p></h1>
-          <p class="title" Belum ada peserta</p>
-        </v-flex> -->
-        <v-container>
+         
+         <v-flex xs12 v-if="imtases.length == 0">
+          <h1 class="headline primary--text"><p>Belum ada jadwal imtas.</p></h1>
+          <p class="title">Silakan klik tanda + di samping untuk membuat jadwal!</p>
+        </v-flex>
+
+        <v-container v-else>
           <v-layout row wrap>
-            
-          
-        
-
-
         <v-flex sm6 >
           <div class="subheading pt-4">Jumlah peserta {{ imtases.length }} santri</div>
         </v-flex>
@@ -64,10 +68,10 @@
             :search= 'cari'
           >
             <template slot="items" slot-scope="props">      
-              <td>{{ props.item.peserta.nama }}</td>
-              <td>{{ props.item.peserta.wali }}</td>
+              <td>{{ props.item.peserta.nama }}</td>              
               <td>{{ props.item.peserta.usia_sekarang }}</td>
               <td>{{ props.item.tpq_imtas.tpq.nama }}</td>
+              <td>{{ $moment(props.item.jadwal.tanggal).format('DD-MM-YYYY') }} <br /> Shift {{ props.item.jadwal.shift }}</td>
             </template>
           </v-data-table>          
         </v-flex>
@@ -97,17 +101,26 @@
         jadwals:{},
         imtases:[],
         headers: [
-              { text: 'Nama santri', value: 'nama'},
-              { text: 'Usia', value: 'wali'},
-              { text: 'Nama Wali', sortable: false, value: 'usia_sekarang'},
+              { text: 'Nama santri', value: 'peserta.nama'},
+              { text: 'Usia', sortable: false, value: 'peserta.usia_sekarang'},
               { text: 'Lembaga', value: 'tpq_imtas.tpq.nama'},
+              { text: 'Jadwal', value: 'jadwal.tanggal'},
         ]
       }
     },
 
     created(){
       this.$root.pageTitle='Jadwal'
-      this.getData()
+
+        let event = JSON.parse(localStorage.getItem('kegiatan'))        
+        if(event != null){
+          this.getData()
+        } else {
+          this.$router.push({ path: '/kegiatan'})
+          this.$swal('Ops','Pilih salah satu kegiatan dulu!', 'info')
+        }              
+
+      
     },
 
     methods:{
@@ -131,7 +144,13 @@
         .then(res=>{
           // console.log(res.data)
           this.imtases = res.data
+                if (this.imtases.length == 0){
+          this.$router.push({ path: '/peserta'})
+          this.$swal('Ops','Sebelum menyusun jadwal, import peserta dulu!', 'info')
+        }          
         })
+
+
 
       },
 
@@ -140,6 +159,27 @@
         this.$refs.create.tpqImtas.kegiatan_id = kegiatan.id
         this.$refs.create.tpqImtas.jadwal_id = id
         this.$refs.create.dialog=true
+      },
+
+      removeJadwal(id){
+        this.$swal({
+            title: "Yakin?",
+            text: "Jadwal akan dibatalkan!",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#85be39",
+            cancelButtonColor: '#ef5350',
+            confirmButtonText: "Yes!"
+        })
+        .then(func=>{
+          if(func.value)
+            this.axios.post('/imtas/peserta/remove', {'id': id})
+            .then(res=>{
+              this.getData()
+              this.$swal({title:'Sukses', text:'Jadwal berhasil dibatalkan.', type:'success',timer:1800});
+            })         
+        })
+
       }
 
     }

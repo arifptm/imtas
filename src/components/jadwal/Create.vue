@@ -1,14 +1,14 @@
 <template>
   <v-dialog v-model="dialog" max-width="560px" scrollable>
-    <v-card>
+    <v-card v-if="tpqImtases.map(item => item.pesertas.length).reduce((a, b) => a + b) > 0">
       <v-card-title>
         <h3 class="headline mb-0">Santri belum terjadwal</h3>
       </v-card-title>
       <v-divider></v-divider>
-      <v-card-text>
+      <v-card-text>        
         <v-list>
           <template v-for="tpqImtas in tpqImtases">
-            <v-list-tile >
+            <v-list-tile v-if="tpqImtas.pesertas.length > 0">
               <v-list-tile-content>
                 <v-list-tile-title>
                   {{ tpqImtas.tpq.nama }}
@@ -23,10 +23,16 @@
                 </v-btn>
               </v-list-tile-action>            
             </v-list-tile>
-            <v-divider></v-divider>
+            <v-divider v-if="tpqImtas.pesertas.length != 0"></v-divider>
           </template>
         </v-list>
       </v-card-text>
+    </v-card>
+    <v-card v-else>
+      <v-card-text>
+        <p class="headline ma-5 text-xs-center">Semua peserta sudah dijadwalkan.</p>
+      </v-card-text>
+      
     </v-card>
 
     <Schedule @close='reloadData' :tpqImtas="tpqImtas" ref="schedule"></Schedule>

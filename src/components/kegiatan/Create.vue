@@ -104,7 +104,7 @@
             // console.log(res.data)
             this.$emit('reload')
             this.dialog= false
-            this.$swal('Mantap')
+            this.$swal({title:'Sukses', text:'Kegiatan baru berhasil dibuat.', type:'success',timer:1800});
           })
         } else {
           this.axios.put('/kegiatan/'+ this.kegiatan.id, this.kegiatan )

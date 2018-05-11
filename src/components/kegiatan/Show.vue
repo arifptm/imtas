@@ -95,27 +95,7 @@
 		        		</v-list-tile-action>		        	    
 		        	</v-list-tile>
 	        	</v-list>
-	        </v-card>
-
-
-
-
-
-
-<!-- 
-			<div class="box">
-				<div class="level">
-					<div class="level-left">
-						<span class="title is-4">Peserta</span>
-					</div>
-					<div class="level-right">
-						<button class="button is-primary" @click="importPeserta"><span class="icon"><i class="fa fa-plus"></i></span> <span>Import</span></button> &nbsp;
-						<button class="button is-primary" @click="createPanitia"><i class="fa fa-plus"></i></button>
-					</div>
-					
-				</div>
-				<button class="button" @click="$router.push('/peserta')">Peserta</button>
-			</div>     -->    	
+	        </v-card>  	
           
         </v-flex>
 
@@ -127,7 +107,6 @@
 		          	<v-spacer></v-spacer>
 					<v-btn light @click="createPenguji"><v-icon>add</v-icon> Tambah</v-btn>
 		        </v-toolbar>
-
 	        	<v-list>
 					<v-list-tile v-for="penguji,i in kegiatan.pengujis" :key="i">
 		        	    <v-list-tile-content>
@@ -147,6 +126,7 @@
 		        		</v-list-tile-action>
 		        	</v-list-tile>
 	        	</v-list>
+
 	        </v-card>
 
         </v-flex>
@@ -156,7 +136,7 @@
 
     	<Panitia ref="panitia" :kegiatan="kegiatan" @refresh="getKegiatan"></Panitia>
 		<Penguji ref="penguji" :kegiatan="kegiatan" @refresh="getKegiatan"></Penguji>
-		<Import ref="import" :kegiatan="kegiatan"></Import>
+		
 
   </v-container>
 </template>

@@ -5,43 +5,43 @@
     <Navbar ref="navbar"></Navbar>
 
     <v-slide-y-transition mode="out-in">
-      <v-layout row wrap>
-        <v-flex xs12 v-if="pesertas.length == 0">>
+      <v-layout row wrap v-if="pesertas.length == 0">
+        <v-flex xs12 >
           <h1 class="headline primary--text"><p></p></h1>
-          <p class="title" Belum ada peserta, silakan <vue-xlsx-table @on-select-file="importPeserta" style="font-size:1rem;">import</vue-xlsx-table> data!</p>
+          <p class="title"> Belum ada peserta, silakan <vue-xlsx-table @on-select-file="importPeserta" style="font-size:1rem;">import</vue-xlsx-table> data!</p>
         </v-flex>
+      </v-layout>
 
-        <v-flex sm6 >
-          <div class="subheading pt-4">Jumlah peserta {{ pesertas.length }} santri</div>
-        </v-flex>
+        <v-layout row wrap v-else>
+          <v-flex>
+            
+            <div class="subheading pt-2">Jika ada tambahan, silakan &nbsp;<vue-xlsx-table @on-select-file="importPeserta">IMPORT</vue-xlsx-table> &nbsp;lagi.</div>
+            <div class="subheading pa-0">Atau <button type="button" class="xlsx-button hps" @click="deleteAllPeserta">HAPUS</button> semua peserta</div>
+          </v-flex>
 
-        <v-flex sm6>
-          <v-text-field v-model="cari" hide-details append-icon="search"
-            label="Cari nama / wali / lembaga"
-          ></v-text-field>
-        </v-flex>
-
-          
-        <v-flex xs12>
-
-
-
-        <v-data-table
-          :headers="headers"
-          :items="pesertas"
-          :rows-per-page-items='[10,25,50,{"text":"Semua","value":-1}]'
-          class="elevation-1"
-          :search= 'cari'
-        >
-          <template slot="items" slot-scope="props">      
-            <td>{{ props.item.nama }}</td>
-            <td>{{ props.item.wali }}</td>
-            <td>{{ props.item.usia_sekarang }}</td>
-            <td>{{ props.item.tpq_imtas.tpq.nama }}</td>            
-          </template>
-        </v-data-table>
-          
-        </v-flex>
+          <v-flex sm6>
+            <v-text-field v-model="cari" hide-details append-icon="search"
+              label="Cari nama / wali / lembaga"
+            ></v-text-field>
+          </v-flex>
+            
+          <v-flex xs12>
+            <v-data-table
+              :headers="headers"
+              :items="pesertas"
+              :rows-per-page-items='[10,25,50,{"text":"Semua","value":-1}]'
+              class="elevation-1"
+              :search= 'cari'
+            >
+              <template slot="items" slot-scope="props">      
+                <td>{{ props.item.nama }}</td>
+                <td>{{ props.item.wali }}</td>
+                <td>{{ props.item.usia_sekarang }}</td>
+                <td>{{ props.item.tpq_imtas.tpq.nama }}</td>            
+              </template>
+            </v-data-table>            
+          </v-flex>
+        </div>
         
       </v-layout>
     </v-slide-y-transition>
@@ -108,9 +108,38 @@
         // })
       },
 
+      deleteAllPeserta(){
+        this.$swal({
+            title: "Yakin?",
+            text: "Data tidak bisa dikembalikan lagi!",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#85be39",
+            cancelButtonColor: '#ef5350',
+            confirmButtonText: "Yes!"
+        })
+        .then(func=>{
+          if(func.value){
+            let event = JSON.parse(localStorage.getItem('kegiatan'))
+            this.axios.post('peserta/deleteall', {'kegiatan': event.id})
+            .then(res=>{
+              this.getItems()
+              this.$swal({title:'Sukses', text:'Data berhasil dihapus', type:'success',timer:1800});
+            })         
+          }
+        })
+      },
+
     }
 
   }
 
 </script>
+
+<style scoped>
+  .hps{
+    background-color:#FF0000;
+    border:1px solid #cc00;
+  }
+</style>
 

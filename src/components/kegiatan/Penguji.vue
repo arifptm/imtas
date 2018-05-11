@@ -51,6 +51,7 @@ export default{
       	dialog (val) {
         	val || this.close()
       	},
+      	
       	kegiatan(val){
       		this.editedItem.kegiatan_id = val.id
       		this.defaultItem.kegiatan_id = val.id
