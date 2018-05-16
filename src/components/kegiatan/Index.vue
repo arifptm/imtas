@@ -1,19 +1,9 @@
 <template>
   <v-container fluid grid-list-lg>
-    
-    <Menus></Menus>
-
     <v-slide-y-transition mode="out-in">
-      <v-layout row wrap >
-        <v-flex xs12>
-          <h1 class="display-1 primary--text"><p>Daftar Kegiatan</p></h1>
-        </v-flex>
+      <v-layout row wrap > 
         
-        <!-- <v-flex xs12 v-if="items.data.length == 0">
-          <p class="subheading">Tidak ada riwayat kegiatan. Silakan <a @click="createKegiatan">membuat kegiatan</a> baru!</p>
-        </v-flex> -->
-
-        <v-flex xs6 sm4 >
+        <v-flex xs12 sm6 md4 >
           <v-card dark height="150px">
             <v-card-text primary-title class="text-xs-center" @click="">
               <v-btn flat color="success" fab @click="createKegiatan">
@@ -24,7 +14,7 @@
           </v-card>
         </v-flex>
 
-        <v-flex xs6 sm4 v-for="item,i in  items.data" :key="i" class="">
+        <v-flex xs12 sm6 md4 v-for="item,i in  items.data" :key="i" class="">
           <v-card height="150px">
             <v-card-title primary-title>
               <div>
@@ -50,13 +40,10 @@
 
 <script>
   
-
-  import Menus from '@/components/layout/Menus'
-  
   import Create from '@/components/kegiatan/Create'
 
   export default{
-    components:{Menus, Create},
+    components:{Create},
     data(){
       return{
         items:[],
@@ -66,7 +53,7 @@
 
     created(){
       this.getItems()
-      this.$root.pageTitle = 'I M T A S'
+      this.$root.pageTitle = 'Daftar kegiatan IMTAS'
     },
 
     methods:{

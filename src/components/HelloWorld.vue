@@ -1,8 +1,5 @@
 <template>
   <v-container fluid>
-    
-    <Menus></Menus>
-
     <v-slide-y-transition mode="out-in">
       <v-layout column align-center>
         OK        
@@ -12,16 +9,8 @@
 </template>
 
 <script>
-  
-  import Menus from '@/components/layout/Menus'
 
   export default{
-    components:{Menus},
-    data(){
-      return{
-        
-      }
-    }
   }
 
 </script>

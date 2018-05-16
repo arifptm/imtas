@@ -1,7 +1,5 @@
 <template>
   <v-container fluid grid-list-lg>
-    
-    <Menus></Menus>
 
     <v-slide-y-transition mode="out-in">
       <v-layout row wrap>
@@ -173,9 +171,6 @@
         </v-tabs>
 
 </div>
-
-
-
          
 			</v-flex>
 
@@ -186,11 +181,9 @@
 </template>
 
 <script>
-  
-  import Menus from '@/components/layout/Menus'  
 
   export default{
-    components:{Menus},
+    components:{},
     data(){
       return{
          activeIds: [],

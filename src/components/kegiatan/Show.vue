@@ -1,7 +1,5 @@
 <template>
   <v-container fluid grid-list-lg>
-    
-    <Menus></Menus>
 
     <v-slide-y-transition mode="out-in">
       <v-layout row wrap>                
@@ -141,15 +139,13 @@
 </template>
 
 <script>
-  
-  	import Menus from '@/components/layout/Menus'
   	import Panitia from '@/components/kegiatan/Panitia'
 	import Penguji from '@/components/kegiatan/Penguji'
 	import Import from '@/components/kegiatan/Import'
 
   	export default{
     
-	    components:{Menus, Panitia, Penguji, Import},
+	    components:{Panitia, Penguji, Import},
 	    
 	    data(){
 	      	return{

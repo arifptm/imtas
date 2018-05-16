@@ -1,8 +1,6 @@
 <template>
   <v-container fluid grid-list-lg>
     
-    <Menus></Menus>
-
     <v-slide-y-transition mode="out-in">
       <v-layout row wrap>
         <v-flex xs4 >
@@ -86,13 +84,11 @@
 </template>
 
 <script>
-  
-  import Menus from '@/components/layout/Menus'
 
   import Create from '@/components/jadwal/Create'
 
   export default{
-    components:{Menus, Create},
+    components:{Create},
     data(){
       return{
         cari:'',
