@@ -1,8 +1,7 @@
 <template>
   <v-container fluid grid-list-lg>
     
-    <Sidebar ref="sidebar"></Sidebar>
-    <Navbar ref="navbar"></Navbar>
+    <Menus></Menus>
 
     <v-slide-y-transition mode="out-in">
       <v-layout row wrap >
@@ -52,12 +51,12 @@
 <script>
   
 
-  import Sidebar from '@/components/layout/Sidebar'
-  import Navbar from '@/components/layout/Navbar'
+  import Menus from '@/components/layout/Menus'
+  
   import Create from '@/components/kegiatan/Create'
 
   export default{
-    components:{Sidebar, Navbar, Create},
+    components:{Menus, Create},
     data(){
       return{
         items:[],

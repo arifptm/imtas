@@ -1,26 +1,22 @@
 <template>
   <v-container fluid>
     
-    <Sidebar ref="sidebar"></Sidebar>
-    <Navbar ref="navbar"></Navbar>
+    <Menus></Menus>
 
     <v-slide-y-transition mode="out-in">
       <v-layout column align-center>
-        {{ $store.state.drawer }} 
-        
-      </v-layout>
-        }
+        OK        
+      </v-layout>      
     </v-slide-y-transition>
   </v-container>
 </template>
 
 <script>
   
-  import Sidebar from '@/components/layout/Sidebar'
-  import Navbar from '@/components/layout/Navbar'
+  import Menus from '@/components/layout/Menus'
 
   export default{
-    components:{Sidebar, Navbar},
+    components:{Menus},
     data(){
       return{
         

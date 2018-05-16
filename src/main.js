@@ -34,7 +34,6 @@ new Vue({
 
   data(){
   	return{
-  		drawer: null,
   		pageTitle: '',
   	}
   }
