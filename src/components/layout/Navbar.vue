@@ -1,7 +1,6 @@
 <template>
-	  <v-toolbar app :clipped-left="clipped">
-      
-      <v-toolbar-side-icon @click="setDrawer()"></v-toolbar-side-icon>          
+	  <v-toolbar app>      
+      <v-toolbar-side-icon @click="setDrawer()"></v-toolbar-side-icon>
       <v-toolbar-title>{{ $root.pageTitle }}</v-toolbar-title>
       <v-spacer></v-spacer>
 
@@ -12,8 +11,6 @@
 	export default{
 		data(){
 			return {
-				miniVariant: false,
-				clipped: false, 
 			}
 		},
 

@@ -1,8 +1,7 @@
 <template>
 	<v-navigation-drawer
       persistent
-      :mini-variant="miniVariant"
-      :clipped="clipped"
+      clipped
       v-model="$root.drawer"
       enable-resize-watcher
       fixed
@@ -16,14 +15,17 @@
         </v-toolbar>
       </v-toolbar>
       <v-list dark>
-        <v-list-tile ripple v-for="(item, i) in items" :key="i" :to='item.url' active-class="yellow--text grey darken-2" >
-          <v-list-tile-action>
-            <v-icon v-html="item.icon" ></v-icon>
-          </v-list-tile-action>
-          <v-list-tile-content>
-            <v-list-tile-title v-text="item.title"></v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
+        <template v-for="(item, i) in items" >
+          <v-list-tile ripple  :to='item.url' active-class="yellow--text grey darken-2" @click="$root.drawer = !$root.drawer">
+            <v-list-tile-action>
+              <v-icon v-html="item.icon" ></v-icon>
+            </v-list-tile-action>
+            <v-list-tile-content>
+              <v-list-tile-title v-text="item.title"></v-list-tile-title>
+            </v-list-tile-content>
+          </v-list-tile>
+          <v-divider v-if="i==2"></v-divider>
+        </template>
       </v-list>
     </v-navigation-drawer>
 </template>
@@ -33,12 +35,11 @@
 		data(){
 			return {
         selected:'',
-				clipped: false,
-				miniVariant: false,
 				items: [
-          {icon: 'event', title: 'Kegiatan', url: '/kegiatan' },
+          {icon: 'flag', title: 'Kegiatan', url: '/kegiatan' },
           {icon: 'people', title: 'Peserta', url: '/peserta' },
           {icon: 'event', title: 'Jadwal', url: '/jadwal' },
+          {icon: 'hourglass_full', title: 'Pelaksanaan', url: '/imtas' },
         ],
 		  }
 		},

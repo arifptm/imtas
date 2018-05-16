@@ -5,6 +5,7 @@ import Kegiatan from '@/components/kegiatan/Index'
 import Show from '@/components/kegiatan/Show'
 import Peserta from '@/components/peserta/Index'
 import Jadwal from '@/components/jadwal/Index'
+import Imtas from '@/components/imtas/Index'
 
 Vue.use(Router)
 
@@ -15,5 +16,6 @@ export default new Router({
     { path: '/kegiatan/:id', name: 'Show', component: Show },
     { path: '/peserta', name: 'Peserta', component: Peserta },
     { path: '/jadwal', name: 'Jadwal', component: Jadwal },
+    { path: '/imtas', name: 'Pelaksanaan', component: Imtas },
   ]
 })

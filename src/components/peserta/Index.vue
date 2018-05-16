@@ -16,7 +16,7 @@
           <v-flex>
             
             <div class="subheading pt-2">Jika ada tambahan, silakan &nbsp;<vue-xlsx-table @on-select-file="importPeserta">IMPORT</vue-xlsx-table> &nbsp;lagi.</div>
-            <div class="subheading pa-0">Atau <button type="button" class="xlsx-button hps" @click="deleteAllPeserta">HAPUS</button> semua peserta</div>
+            <div class="subheading pa-0">Atau <button type="button" class="xlsx-button hps" @click="deleteAllPeserta">HAPUS</button> semua ({{ pesertas.length }}) peserta</div>
           </v-flex>
 
           <v-flex sm6>
@@ -38,6 +38,10 @@
                 <td>{{ props.item.wali }}</td>
                 <td>{{ props.item.usia_sekarang }}</td>
                 <td>{{ props.item.tpq_imtas.tpq.nama }}</td>            
+                <td class="text-xs-right">
+                  <v-btn icon color="success"><v-icon>contact_mail</v-icon></v-btn>
+                  <v-btn icon color="success"><v-icon>school</v-icon></v-btn>
+                </td>
               </template>
             </v-data-table>            
           </v-flex>
@@ -46,7 +50,7 @@
       </v-layout>
     </v-slide-y-transition>
 
-    <Preview ref="preview"></Preview>
+    <Preview ref="preview" @reload="getPesertas"></Preview>
 
   </v-container>
 </template>
@@ -70,9 +74,10 @@
         pesertas:[],
         headers: [
               { text: 'Nama santri', value: 'nama'},
-              { text: 'Usia', value: 'wali'},
-              { text: 'Nama Wali', sortable: false, value: 'usia_sekarang'},
+              { text: 'Wali', value: 'wali'},
+              { text: 'Usia', sortable: false, value: 'usia_sekarang'},
               { text: 'Lembaga', value: 'tpq_imtas.tpq.nama'},
+              { text: 'Aksi', class: 'text-xs-right', sortable: false},
         ]
       }
     },

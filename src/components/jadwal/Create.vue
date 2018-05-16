@@ -70,9 +70,9 @@
 
     computed:{
       yetScheduled(){
-        if(tpqImtases.length > 0) { 
-          let yet = tpqImtases.map(item => item.pesertas.length).reduce((a, b) => a + b)
-
+        if(this.tpqImtases.length > 0) { 
+          let yet = this.tpqImtases.map(item => item.pesertas.length).reduce((a, b) => a + b)
+          return yet > 0 ? true : false
         } else {
           return false 
         }
@@ -104,7 +104,7 @@
       },
 
       openScheduleDialog(item){
-        console.log(item.pesertas.length)
+        // console.log(item.pesertas.length)
         this.$refs.schedule.dialog = true
         this.tpqImtas.id = item.id
         let jumlahImtasOption = []

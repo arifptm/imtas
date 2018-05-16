@@ -45,10 +45,11 @@
           <p class="title">Silakan klik tanda + di samping untuk membuat jadwal!</p>
         </v-flex>
 
-        <v-container v-else>
+        <v-container v-else class="pa-0">
           <v-layout row wrap>
         <v-flex sm6 >
-          <div class="subheading pt-4">Jumlah peserta {{ imtases.length }} santri</div>
+          <div class="subheading pt-0">{{ $moment(imtases[0].jadwal.tanggal).format('DD-MM-YYYY') }} | Shift #{{  imtases[0].jadwal.shift }} </div>
+          <div class="subheading pt-0">Jumlah peserta {{ imtases.length }} santri</div>
         </v-flex>
 
         <v-flex sm6>
@@ -71,7 +72,6 @@
               <td>{{ props.item.peserta.nama }}</td>              
               <td>{{ props.item.peserta.usia_sekarang }}</td>
               <td>{{ props.item.tpq_imtas.tpq.nama }}</td>
-              <td>{{ $moment(props.item.jadwal.tanggal).format('DD-MM-YYYY') }} <br /> Shift {{ props.item.jadwal.shift }}</td>
             </template>
           </v-data-table>          
         </v-flex>
@@ -104,7 +104,6 @@
               { text: 'Nama santri', value: 'peserta.nama'},
               { text: 'Usia', sortable: false, value: 'peserta.usia_sekarang'},
               { text: 'Lembaga', value: 'tpq_imtas.tpq.nama'},
-              { text: 'Jadwal', value: 'jadwal.tanggal'},
         ]
       }
     },
@@ -113,6 +112,7 @@
       this.$root.pageTitle='Jadwal'
 
         let event = JSON.parse(localStorage.getItem('kegiatan'))        
+        // console.log(event)
         if(event != null){
           this.getData()
         } else {
@@ -144,10 +144,10 @@
         .then(res=>{
           // console.log(res.data)
           this.imtases = res.data
-                if (this.imtases.length == 0){
-          this.$router.push({ path: '/peserta'})
-          this.$swal('Ops','Sebelum menyusun jadwal, import peserta dulu!', 'info')
-        }          
+            // if (this.imtases.length == 0){
+            //   this.$router.push({ path: '/peserta'})
+            //   this.$swal('Ops','Sebelum menyusun jadwal, import peserta dulu!', 'info')
+            // }          
         })
 
 
@@ -176,6 +176,7 @@
             this.axios.post('/imtas/peserta/remove', {'id': id})
             .then(res=>{
               this.getData()
+              this.$refs.create.getTpqImtases()
               this.$swal({title:'Sukses', text:'Jadwal berhasil dibatalkan.', type:'success',timer:1800});
             })         
         })

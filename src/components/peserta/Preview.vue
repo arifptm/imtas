@@ -6,7 +6,7 @@
 	      	</v-card-title>
 	      		      	
 	      	<v-card-text>
-
+<v-progress-linear :indeterminate="true" v-if="loader === true"></v-progress-linear>
 <v-data-table
     :headers="headers"
     :items="pesertas"
@@ -44,6 +44,7 @@ export default{
 	data(){
 		return{
 			dialog: false,
+			loader: false,
 			pesertas:[],
 			headers: [
 	          { text: 'Korcam', sortable: false, value: 'korcam_kecamatan'},
@@ -69,10 +70,14 @@ export default{
 	methods:{
 
 		importPeserta(){
+        	this.loader = true
         	this.axios.post('/peserta/import', {'data': this.pesertas, 'kegiatan': localStorage.getItem('kegiatan')})
         	
         	.then(response=>{
-          		console.log(response.data)
+          		// console.log(response.data)
+          		this.dialog = false
+          		this.loader = false
+          		this.$emit('reload')
         	})			
 		}
 
