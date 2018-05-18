@@ -3,8 +3,11 @@
 	    <v-card>
 	      	<v-card-title>
 	        	<h3 class="headline mb-0">Preview</h3>
+	        	<v-spacer></v-spacer>
+	        	<v-btn color="success" @click="importPeserta">Simpan</v-btn>
+	        	<v-btn icon @click="dialog = false"><v-icon>clear</v-icon></v-btn>
 	      	</v-card-title>
-	      		      	
+	      		      	<v-divider></v-divider>
 	      	<v-card-text>
 <v-progress-linear :indeterminate="true" v-if="loader === true"></v-progress-linear>
 <v-data-table
@@ -26,7 +29,7 @@
 
 
 	      	</v-card-text>
-
+	      	<v-divider></v-divider>
 	      	<v-card-actions>
 	      		<v-btn flat color="success" @click="importPeserta">Simpan</v-btn>
 	      		<v-btn flat color="success" @click="dialog = false">Batal</v-btn>
@@ -71,7 +74,7 @@ export default{
 
 		importPeserta(){
         	this.loader = true
-        	this.axios.post('/peserta/import', {'data': this.pesertas, 'kegiatan': localStorage.getItem('kegiatan')})
+        	this.axios.post('api/peserta/import', {'data': this.pesertas, 'kegiatan': localStorage.getItem('kegiatan')})
         	
         	.then(response=>{
           		// console.log(response.data)

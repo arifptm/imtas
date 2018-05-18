@@ -1,14 +1,9 @@
 <template>
   <v-app>
-    <v-toolbar app fixed> 
-      <v-toolbar-side-icon @click="setDrawer"></v-toolbar-side-icon>
-      <v-toolbar-title @click="$router.push('/')">{{ $root.pageTitle }}</v-toolbar-title>
-    </v-toolbar>
 
-    <v-navigation-drawer v-model="drawer" fixed app dark >
+    <v-navigation-drawer v-model="drawer" fixed app dark v-if="isAuth === true" width="200">
       <v-toolbar color="primary">
-        <v-toolbar-title>
-          {{ selected }}
+        <v-toolbar-title v-html="selected">
         </v-toolbar-title>          
       </v-toolbar>
     
@@ -26,6 +21,11 @@
         </template>
       </v-list>
     </v-navigation-drawer>
+
+    <v-toolbar app fixed v-if="isAuth === true"> 
+      <v-toolbar-side-icon @click="setDrawer"></v-toolbar-side-icon>
+      <v-toolbar-title @click="$router.push('/')">{{ $root.pageTitle }}</v-toolbar-title>
+    </v-toolbar>
 
     <v-content>
       <router-view/>
@@ -45,6 +45,7 @@ export default {
 
   data () {   
     return {
+      isAuth: false,
       drawer:null,
       selected:'',
       items: [
@@ -58,13 +59,14 @@ export default {
   },
   
   created(){
+    this.isAuth = this.$auth.isAuthenticated()
     let event = JSON.parse(localStorage.getItem('kegiatan'))
     if (event != null){ 
-      this.selected = this.$moment(event.periode).format('YYYY') +  ' -- '  + event.cabang 
+      this.selected = this.$moment(event.periode).format('YYYY') +  ' &mdash; '  + event.cabang 
     }
   },  
 
-  methods:{
+  methods:{    
     setDrawer(){
       this.drawer = !this.drawer
     }

@@ -98,7 +98,7 @@
 
       saveKegiatan(){
         if(this.editedIndex == -1){ 
-          this.axios.post('/kegiatan', this.kegiatan)
+          this.axios.post('api/kegiatan', this.kegiatan)
           .then(res=>{
             localStorage.setItem('kegiatan', JSON.stringify(res.data)) 
             // console.log(res.data)
@@ -108,7 +108,7 @@
             this.$swal({title:'Sukses', text:'Kegiatan baru berhasil dibuat.', type:'success',timer:1800});
           })
         } else {
-          this.axios.put('/kegiatan/'+ this.kegiatan.id, this.kegiatan )
+          this.axios.put('api/kegiatan/'+ this.kegiatan.id, this.kegiatan )
           .then(res=>{
             // console.log(res.data)
             this.$emit('reload')

@@ -40,8 +40,8 @@
 
 			</v-flex>
 			<v-flex xs12 md8 xl9>
-        <div v-if="actives.length > 0 && activeIds.length > 0">
-          <h4 class="title mb-1"><span class="body-2">{{ $moment(actives[0].tanggal).format("DD-MM-YYYY") }}</span> | <span class="blue--text">Shift #{{ actives[0].shift }}</span></h4>
+        <div v-if="activeIds.length > 0">
+          <h4 class="title mb-1"><span class="body-2">{{ $moment(actived.tanggal).format("DD-MM-YYYY") }}</span> | <span class="blue--text">Shift #{{ actived.shift }}</span></h4>
         <v-tabs grow v-model="tab" slider-color="blue">
           <v-tab ripple >Nilai</v-tab>
           <v-tab-item>
@@ -49,7 +49,7 @@
               
          <v-data-table
               :headers="headers"
-              :items="actives[0].imtases"
+              :items="actived.imtases"
               hide-actions
               class="elevation-1 mb-4"
             >
@@ -188,6 +188,7 @@
       return{
          activeIds: [],
          active:'',
+         actived:{},
          jadwals:[],
          headers:[
  			      { text: 'Nama santri', value: 'peserta.nama'},            
@@ -207,12 +208,21 @@
     created(){
     	this.$root.pageTitle = 'Pelaksanaan Imtas'
     	this.getJadwals()
+      this.getStorageData()
     },
 
+    mounted(){
+      // let fa = this.jadwals.filter(item => item.id == 256 )
+        // let fa = this.jadwals.indexOf(this.active)
+        
+        // this.actived = this.jadwals[0]
+    },    
+
     computed:{
-    	actives(){
-    		return this.jadwals.filter(item => item.id == this.active)
-        // return this.jadwals.filter(item=> this.activeIds.includes(item.id))
+    	showData(){
+    		let fa = this.jadwals.filter(item => item.id == this.active)
+        this.actived = fa[0]
+        return 'true'
     	},
 
       selesai(){
@@ -223,10 +233,20 @@
 
     methods:{
 
+      displayActive(i){
+        // this.actived = this.jadwals.filter(item => item.id == this.active)
+        this.actived = this.jadwals[i]
+      },
+
+      getStorageData(){
+        this.active = JSON.parse(localStorage.getItem('active') || '') 
+        this.activeIds = JSON.parse(localStorage.getItem('activeIds') || "[]")
+      },
+
 	    getJadwals(){
 	        let kegiatan = JSON.parse(localStorage.getItem('kegiatan'))
 	        
-		        this.axios.post('/jadwal/list', kegiatan)
+		        this.axios.post('api/jadwal/list', kegiatan)
 		        .then(res=>{
 		          //console.log(res.data)
 		          this.jadwals = res.data
@@ -236,13 +256,22 @@
 	    },
 
       displayImtas(i){
-        this.active = this.jadwals[i].id
+        this.actived = this.jadwals[i]
       },
 
 
 	    startImtas(i){
-        this.active = this.jadwals[i].id
-	    	this.activeIds.push(this.jadwals[i].id)
+        let ji = this.jadwals[i].id
+        
+        this.active = JSON.parse(localStorage.getItem('active'))
+        localStorage.setItem('active', ji)
+
+        this.activeIds.push(ji)
+        localStorage.setItem('activeIds', JSON.stringify(this.activeIds))
+
+        this.displayActive(i)
+        
+        // this.activeIds.push(this.jadwals[i].id)
 	    	// this.actives = this.jadwals[i]
 	    	// this.axios.post('/jadwal/activate', {id})
 	    	// .then(res=>{
@@ -252,8 +281,9 @@
 	    },
 
 	    stopImtas(id){
-	    	let ff = this.activeIds.indexOf(id)
-	    	this.activeIds.splice(ff,1)
+	    	let ta = this.activeIds.indexOf(id)
+	    	this.activeIds.splice(ta,1)
+        localStorage.setItem('activeIds', JSON.stringify(this.activeIds))
 	    	// console.log(ff)
 	    }
     },

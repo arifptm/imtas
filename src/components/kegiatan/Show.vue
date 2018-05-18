@@ -165,7 +165,7 @@
 
 		methods:{
 			getKegiatan(){
-				this.axios.get('/kegiatan/'+ this.$route.params.id)
+				this.axios.get('api/kegiatan/'+ this.$route.params.id)
 				.then(response=>{
 					this.kegiatan = response.data
 				})
@@ -201,7 +201,7 @@
 		        })
 		        .then(func=>{
 		          	if(func.value){
-		            	this.axios.delete('/panitia/'+item.id)
+		            	this.axios.delete('api/panitia/'+item.id)
 		            	.then(res=>{
 		              		this.getKegiatan()
 		              		this.$swal({title:'Sukses', text:'Data berhasil dihapus', type:'success',timer:1800});
@@ -234,7 +234,7 @@
 		        })
 		        .then(func=>{
 		          	if(func.value){
-		            	this.axios.delete('/penguji/'+item.id)
+		            	this.axios.delete('api/penguji/'+item.id)
 		            	.then(res=>{
 		              		this.getKegiatan()
 		              		this.$swal({title:'Sukses', text:'Data berhasil dihapus', type:'success',timer:1800});

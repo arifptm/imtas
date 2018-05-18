@@ -54,7 +54,7 @@
           this.jumlahImtasOption = 0
       },      
       scheduleIt(){
-        this.axios.post('/imtas', { 'tpqImtas': this.tpqImtas, 'jumlah': this.jumlahImtasOption})
+        this.axios.post('api/imtas', { 'tpqImtas': this.tpqImtas, 'jumlah': this.jumlahImtasOption})
         .then(res=>{
           this.close()
           this.$emit('close')

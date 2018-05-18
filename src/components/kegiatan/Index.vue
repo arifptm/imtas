@@ -19,7 +19,7 @@
             <v-card-title primary-title>
               <div>
                 <h3 class="headline mb-0">Imtas <b>{{ $moment(item.periode).format('YYYY') }}</b></h3>
-                <div>Cabang {{ item.cabang }}, {{ $moment(item.tanggal_imtas).locale('id').format('DD MMM YYYY') }}</div>
+                <div>Korcab. {{ item.cabang }}, {{ $moment(item.tanggal_imtas).locale('id').format('DD MMM YYYY') }}</div>
               </div>
             </v-card-title>
             <v-card-actions>              
@@ -58,7 +58,7 @@
 
     methods:{
       getItems(){
-        this.axios.get('/kegiatan')
+        this.axios.get('api/kegiatan')
         .then(res=>{
           // console.log(res.data)
           this.items = res.data
@@ -94,7 +94,7 @@
         })
         .then(func=>{
           if(func.value)
-            this.axios.delete('/kegiatan/'+item.id)
+            this.axios.delete('api/kegiatan/'+item.id)
             .then(res=>{
               this.getItems()
               localStorage.removeItem('kegiatan')

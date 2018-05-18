@@ -88,7 +88,7 @@
         let event = JSON.parse(localStorage.getItem('kegiatan'))
         // console.log(event)
         if(event != null){
-          this.axios.post('/peserta', {id: event.id})
+          this.axios.post('api/peserta', {id: event.id})
           .then(res=>{
             this.pesertas = res.data
           })
@@ -121,7 +121,7 @@
         .then(func=>{
           if(func.value){
             let event = JSON.parse(localStorage.getItem('kegiatan'))
-            this.axios.post('peserta/deleteall', {'id': event.id})
+            this.axios.post('api/peserta/deleteall', {'id': event.id})
             .then(res=>{
               this.getPesertas()
               this.$swal({title:'Sukses', text:'Data berhasil dihapus', type:'success',timer:1800});

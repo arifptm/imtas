@@ -96,7 +96,7 @@
       getTpqImtases(){
         let kegiatan = JSON.parse(localStorage.getItem('kegiatan'))
         if (kegiatan != null){
-          this.axios.post('/tpqimtas', {'kegiatan_id': kegiatan.id})
+          this.axios.post('api/tpqimtas', {'kegiatan_id': kegiatan.id})
           .then(response=>{
             this.tpqImtases = response.data
           })

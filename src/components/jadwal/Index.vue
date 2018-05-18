@@ -125,7 +125,7 @@
 
       getJadwals(){
         let kegiatan = JSON.parse(localStorage.getItem('kegiatan'))
-        this.axios.post('/jadwal', kegiatan)
+        this.axios.post('api/jadwal', kegiatan)
         .then(res=>{
           //console.log(res.data)
           this.jadwals = res.data
@@ -134,7 +134,7 @@
 
       getImtases(jadwal){
         let kegiatan = JSON.parse(localStorage.getItem('kegiatan'))
-        this.axios.post('/imtas/peserta', {'jadwal':jadwal, 'kegiatan': kegiatan})
+        this.axios.post('api/imtas/peserta', {'jadwal':jadwal, 'kegiatan': kegiatan})
         .then(res=>{
           // console.log(res.data)
           this.imtases = res.data
@@ -167,7 +167,7 @@
         })
         .then(func=>{
           if(func.value)
-            this.axios.post('/imtas/peserta/remove', {'id': id})
+            this.axios.post('api/imtas/peserta/remove', {'id': id})
             .then(res=>{
               this.getData()
               this.$refs.create.getTpqImtases()
