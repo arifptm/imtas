@@ -78,7 +78,8 @@
 
       selectKegiatan(item){
         // console.log(item)     
-        localStorage.setItem('kegiatan', JSON.stringify(item))   
+        localStorage.setItem('kegiatan', JSON.stringify(item))
+        this.$root.eventName = this.$moment(item.periode).format('YYYY') +  ' &mdash; '  + item.cabang
         this.$router.push('/kegiatan/'+ item.id)
       },
 

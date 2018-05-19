@@ -39,8 +39,8 @@
 				</v-list>
 
 			</v-flex>
-			<v-flex xs12 md8 xl9>
-        <div v-if="activeIds.length > 0">
+			<v-flex xs12 md8 xl9 v-if="activeIds.length > 0">
+        
           <h4 class="title mb-1"><span class="body-2">{{ $moment(actived.tanggal).format("DD-MM-YYYY") }}</span> | <span class="blue--text">Shift #{{ actived.shift }}</span></h4>
         <v-tabs grow v-model="tab" slider-color="blue">
           <v-tab ripple >Nilai</v-tab>
@@ -170,9 +170,12 @@
 
         </v-tabs>
 
-</div>
+
          
 			</v-flex>
+      <v-flex xs12 md8 xl9 v-else>
+        Klik Start
+      </v-flex>
 
         
       </v-layout>
@@ -206,25 +209,19 @@
     },
 
     created(){
-    	this.$root.pageTitle = 'Pelaksanaan Imtas'
-    	this.getJadwals()
-      this.getStorageData()
+      let event = JSON.parse(localStorage.getItem('kegiatan'))        
+      if(event == null){          
+          this.$router.push({ path: '/kegiatan'})
+          this.$swal('Ops','Pilih salah satu kegiatan dulu!', 'info')
+      } else {
+        this.$root.pageTitle = 'Pelaksanaan Imtas'
+        this.getJadwals()
+        this.getStorageData()  
+      }
     },
 
-    mounted(){
-      // let fa = this.jadwals.filter(item => item.id == 256 )
-        // let fa = this.jadwals.indexOf(this.active)
-        
-        // this.actived = this.jadwals[0]
-    },    
 
     computed:{
-    	showData(){
-    		let fa = this.jadwals.filter(item => item.id == this.active)
-        this.actived = fa[0]
-        return 'true'
-    	},
-
       selesai(){
         return this.jadwals.filter(item => item.id == this.active)
       }
@@ -239,17 +236,28 @@
       },
 
       getStorageData(){
-        this.active = JSON.parse(localStorage.getItem('active') || '') 
+        this.active = localStorage.getItem('active') || ""
         this.activeIds = JSON.parse(localStorage.getItem('activeIds') || "[]")
+
       },
 
 	    getJadwals(){
-	        let kegiatan = JSON.parse(localStorage.getItem('kegiatan'))
-	        
-		        this.axios.post('api/jadwal/list', kegiatan)
+            let event = JSON.parse(localStorage.getItem('kegiatan'))
+		        this.axios.post('api/jadwal/list', event)
 		        .then(res=>{
 		          //console.log(res.data)
 		          this.jadwals = res.data
+              let imts = this.jadwals.map(item=>item.imtases.length).reduce((a,b)=>a+b)
+              if(imts == 0){
+                this.$router.push({ path: '/jadwal'})
+                this.$swal('Ops','Atur jadwal dulu!', 'info')
+              }
+              
+              if (this.active != ''){
+                let fa = this.jadwals.filter(item => item.id == this.active)
+                this.actived = fa[0]                
+              }
+
 		        })
 
 	        this.tm = setTimeout(this.getJadwals,5000)

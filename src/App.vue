@@ -3,8 +3,8 @@
 
     <v-navigation-drawer v-model="drawer" fixed app dark v-if="isAuth === true" width="200">
       <v-toolbar color="primary">
-        <v-toolbar-title v-html="selected">
-        </v-toolbar-title>          
+        <v-toolbar-title v-html="$root.eventName">
+        </v-toolbar-title>           
       </v-toolbar>
     
       <v-list dark>
@@ -19,6 +19,14 @@
           </v-list-tile>
           <v-divider v-if="i==2"></v-divider>
         </template>
+        <v-list-tile ripple active-class="yellow--text grey darken-2" @click="logout">
+            <v-list-tile-action>
+              <v-icon>exit_to_app</v-icon>
+            </v-list-tile-action>
+            <v-list-tile-content>
+              <v-list-tile-title>Logout</v-list-tile-title>
+            </v-list-tile-content>
+          </v-list-tile>        
       </v-list>
     </v-navigation-drawer>
 
@@ -47,29 +55,45 @@ export default {
     return {
       isAuth: false,
       drawer:null,
-      selected:'',
+      eventName:'',
       items: [
         {icon: 'flag', title: 'Kegiatan', url: '/kegiatan' },
         {icon: 'people', title: 'Peserta', url: '/peserta' },
         {icon: 'event', title: 'Jadwal', url: '/jadwal' },
         {icon: 'hourglass_full', title: 'Pelaksanaan', url: '/imtas' },
       ],
-      pageTitle:'IMTAS' 
     }
   },
   
   created(){
-    this.isAuth = this.$auth.isAuthenticated()
-    let event = JSON.parse(localStorage.getItem('kegiatan'))
-    if (event != null){ 
-      this.selected = this.$moment(event.periode).format('YYYY') +  ' &mdash; '  + event.cabang 
-    }
-  },  
+    this.checkAuth()
+    let event = JSON.parse(localStorage.getItem('kegiatan'))    
+    this.$root.eventName = (event != null) ? this.$moment(event.periode).format('YYYY') +  ' &mdash; '  + event.cabang : "IMTAS"
+    
+  }, 
+
+  computed:{
+    
+  },
 
   methods:{    
     setDrawer(){
       this.drawer = !this.drawer
+    },
+
+    checkAuth(){
+      this.isAuth = this.$auth.isAuthenticated()
+    },
+
+    logout(){
+      this.$auth.destroyToken()
+      this.checkAuth()
+      localStorage.removeItem('kegiatan')
+      localStorage.removeItem('active')
+      localStorage.removeItem('activeIds')
+      this.$router.push('/')
     }
+
   }
 
 }

@@ -4,7 +4,7 @@
     <v-slide-y-transition mode="out-in">
       <v-layout row wrap>
         <v-flex xs4 >
-          <div v-for="jadwal,i in jadwals">
+          <div v-for="jadwal,i in jadwals.list">
             <v-toolbar dense color="blue lighten-1" >
               <v-toolbar-title class="white--text">{{ $moment(i).format('DD-MM-YYYY') }}</v-toolbar-title>
             </v-toolbar>
@@ -129,6 +129,10 @@
         .then(res=>{
           //console.log(res.data)
           this.jadwals = res.data
+          if(this.jadwals.count_peserta == 0 ){
+              this.$router.push({ path: '/peserta'})
+              this.$swal('Ops','Belum ada peserta, import peserta dulu!', 'info')
+          }
         })
       },
 
@@ -140,7 +144,7 @@
           this.imtases = res.data
             // if (this.imtases.length == 0){
             //   this.$router.push({ path: '/peserta'})
-            //   this.$swal('Ops','Sebelum menyusun jadwal, import peserta dulu!', 'info')
+            //   this.$swal('Ops','Belum ada peserta, import peserta dulu!', 'info')
             // }          
         })
 

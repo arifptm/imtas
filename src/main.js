@@ -58,6 +58,7 @@ new Vue({
   data(){
   	return{
   		pageTitle: '',
+  		eventName:'',
   	}
   }
 })
